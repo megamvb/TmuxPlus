@@ -49,14 +49,69 @@ python3 main.py          # iniciar
 python3 main.py --log    # iniciar com log em arquivo
 ```
 
-### Atalhos principais
+### Atalhos
+
+#### Global
 
 | Tecla      | Ação                    |
 |------------|-------------------------|
-| `Ctrl+Q`   | Sair                   |
-| `Ctrl+T`   | Alternar tema          |
-| `?`         | Ajuda                  |
-| `Ctrl+P`   | Paleta de comandos     |
+| `Ctrl+Q`   | Sair                    |
+| `Ctrl+T`   | Alternar tema           |
+| `?`        | Ajuda                   |
+| `Ctrl+P`   | Paleta de comandos      |
+
+#### Tela Home
+
+| Tecla | Ação     |
+|-------|----------|
+| `1`   | Sessões  |
+| `2`   | Janelas  |
+| `3`   | Painéis  |
+| `q`   | Sair     |
+
+#### Tela Sessões
+
+| Tecla    | Ação                      |
+|----------|---------------------------|
+| `c`      | Criar sessão              |
+| `r`      | Renomear sessão           |
+| `a`      | Anexar à sessão           |
+| `k`      | Matar sessão              |
+| `s`      | Salvar sessão em disco    |
+| `l`      | Carregar sessão salva     |
+| `F5`     | Atualizar lista           |
+| `Escape` | Voltar                    |
+
+#### Tela Janelas
+
+| Tecla    | Ação              |
+|----------|--------------------|
+| `c`      | Criar janela       |
+| `r`      | Renomear janela    |
+| `s`      | Selecionar janela  |
+| `k`      | Fechar janela      |
+| `F5`     | Atualizar lista    |
+| `Escape` | Voltar             |
+
+#### Tela Painéis
+
+| Tecla    | Ação                        |
+|----------|------------------------------|
+| `v`      | Split vertical              |
+| `h`      | Split horizontal            |
+| `x`      | Enviar comando ao painel    |
+| `H`      | Histórico de comandos       |
+| `A`      | Aliases do shell            |
+| `k`      | Fechar painel               |
+| `F5`     | Atualizar lista             |
+| `Escape` | Voltar                      |
+
+#### Popup Tmux (dentro do terminal)
+
+| Tecla      | Ação                                  |
+|------------|----------------------------------------|
+| `Ctrl+B H` | Histórico de comandos (popup filtrável) |
+| `Ctrl+B A` | Aliases do shell (popup filtrável)      |
 
 ## Estrutura do projeto
 

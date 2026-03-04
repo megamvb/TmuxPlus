@@ -9,6 +9,52 @@ from i18n import t
 
 
 TMUX_HELP_TEXT_EN = """\
+[bold cyan]═══ TmuxPlus Commands ═══[/]
+
+[bold green]── Global ───────────────────────────────────────[/]
+[bold]Ctrl+Q[/]          Quit TmuxPlus
+[bold]Ctrl+T[/]          Toggle theme
+[bold]?[/]               Help
+[bold]Ctrl+P[/]          Command palette
+
+[bold green]── Home Screen ──────────────────────────────────[/]
+[bold]1[/]               Sessions
+[bold]2[/]               Windows
+[bold]3[/]               Panes
+[bold]q[/]               Quit
+
+[bold green]── Sessions Screen ──────────────────────────────[/]
+[bold]c[/]               Create session
+[bold]r[/]               Rename session
+[bold]a[/]               Attach to session
+[bold]k[/]               Kill session
+[bold]s[/]               Save session to disk
+[bold]l[/]               Load saved session
+[bold]F5[/]              Refresh list
+[bold]Escape[/]          Back
+
+[bold green]── Windows Screen ───────────────────────────────[/]
+[bold]c[/]               Create window
+[bold]r[/]               Rename window
+[bold]s[/]               Select window
+[bold]k[/]               Close window
+[bold]F5[/]              Refresh list
+[bold]Escape[/]          Back
+
+[bold green]── Panes Screen ─────────────────────────────────[/]
+[bold]v[/]               Split vertically
+[bold]h[/]               Split horizontally
+[bold]x[/]               Send command to pane
+[bold]H[/]               History picker
+[bold]A[/]               Alias picker
+[bold]k[/]               Close pane
+[bold]F5[/]              Refresh list
+[bold]Escape[/]          Back
+
+[bold green]── Tmux Popup (inside terminal) ──────────────────[/]
+[bold]Ctrl+B  H[/]       History picker (filterable popup)
+[bold]Ctrl+B  A[/]       Alias picker (filterable popup)
+
 [bold cyan]═══ Essential Tmux Commands ═══[/]
 
 [bold yellow]Default prefix:[/] [bold white]Ctrl+B[/]  (all commands below use this prefix)

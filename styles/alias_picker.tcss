@@ -1,0 +1,21 @@
+/* ── Alias Picker (popup) ─────────────────────── */
+
+Screen {
+    background: $surface;
+}
+
+#picker-container {
+    width: 100%;
+    height: 100%;
+    padding: 1 2;
+}
+
+#picker-filter {
+    width: 100%;
+    margin: 0 0 1 0;
+}
+
+#picker-list {
+    height: 1fr;
+    border: tall $primary-background;
+}

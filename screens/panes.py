@@ -1,5 +1,7 @@
 """Tmux pane management screen."""
 
+import time
+
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.screen import Screen
@@ -16,7 +18,7 @@ from textual import work
 from i18n import t
 from services.command_guard import is_blocked, is_dangerous
 from services.tmux_service import TmuxService
-from widgets.modals import ConfirmModal, InputModal
+from widgets.modals import AliasModal, ConfirmModal, HistoryModal, InputModal
 
 
 class PanesScreen(Screen):
@@ -26,6 +28,8 @@ class PanesScreen(Screen):
         ("v", "split_vertical", t("Split V")),
         ("h", "split_horizontal", t("Split H")),
         ("x", "send_command", t("Send Cmd")),
+        ("H", "history_command", t("History")),
+        ("A", "alias_command", t("Aliases")),
         ("k", "kill_pane", t("Close")),
         ("escape", "go_back", t("Back")),
         ("f5", "refresh", t("Refresh")),
@@ -58,6 +62,8 @@ class PanesScreen(Screen):
                 yield Button("[v] Split Vertical", variant="success", id="btn-splitv")
                 yield Button("[h] Split Horizontal", variant="success", id="btn-splith")
                 yield Button(f"[x] {t('Send Cmd')}", variant="primary", id="btn-send")
+                yield Button(f"[H] {t('History')}", variant="primary", id="btn-history")
+                yield Button(f"[A] {t('Aliases')}", variant="primary", id="btn-alias")
                 yield Button(f"[k] {t('Close')}", variant="error", id="btn-kill")
                 yield Button(f"[Esc] {t('Back')}", id="btn-back")
         yield Footer()
@@ -140,6 +146,8 @@ class PanesScreen(Screen):
             "btn-splitv": self.action_split_vertical,
             "btn-splith": self.action_split_horizontal,
             "btn-send": self.action_send_command,
+            "btn-history": self.action_history_command,
+            "btn-alias": self.action_alias_command,
             "btn-kill": self.action_kill_pane,
             "btn-back": self.action_go_back,
         }
@@ -213,6 +221,93 @@ class PanesScreen(Screen):
         self.app.push_screen(
             InputModal(t("Command to send to pane:"), "ls -la"), on_result
         )
+
+    def action_history_command(self) -> None:
+        pane_id = self._get_selected_pane_id()
+        if not pane_id:
+            self.notify(t("Select a pane first"), severity="warning")
+            return
+
+        def _do_send(cmd: str) -> None:
+            if self.tmux.send_keys_to_pane(pane_id, cmd):
+                self.notify(t("Command sent to pane {id}").format(id=pane_id))
+            else:
+                self.notify(t("Error sending command"), severity="error")
+
+        def on_result(cmd: str | None) -> None:
+            if not cmd:
+                return
+            if is_blocked(cmd):
+                self.notify(
+                    t("Command blocked: destructive rm on root is not allowed"),
+                    severity="error",
+                    timeout=5,
+                )
+                return
+            if is_dangerous(cmd):
+                def on_confirm(confirmed: bool | None) -> None:
+                    if confirmed:
+                        _do_send(cmd)
+                self.app.push_screen(
+                    ConfirmModal(
+                        t("Dangerous command: '{cmd}'\nAre you sure you want to send it?").format(
+                            cmd=f"[bold red]{cmd}[/bold red]"
+                        )
+                    ),
+                    on_confirm,
+                )
+                return
+            _do_send(cmd)
+
+        self._open_history_modal(pane_id, on_result)
+
+    @work(thread=True)
+    def _open_history_modal(self, pane_id: str, callback) -> None:
+        self.tmux.flush_pane_history(pane_id)
+        time.sleep(0.3)
+        history_path = self.tmux.get_pane_histfile(pane_id)
+        self.app.call_from_thread(
+            self.app.push_screen, HistoryModal(history_path=history_path), callback
+        )
+
+    def action_alias_command(self) -> None:
+        pane_id = self._get_selected_pane_id()
+        if not pane_id:
+            self.notify(t("Select a pane first"), severity="warning")
+            return
+
+        def _do_send(cmd: str) -> None:
+            if self.tmux.send_keys_to_pane(pane_id, cmd):
+                self.notify(t("Command sent to pane {id}").format(id=pane_id))
+            else:
+                self.notify(t("Error sending command"), severity="error")
+
+        def on_result(cmd: str | None) -> None:
+            if not cmd:
+                return
+            if is_blocked(cmd):
+                self.notify(
+                    t("Command blocked: destructive rm on root is not allowed"),
+                    severity="error",
+                    timeout=5,
+                )
+                return
+            if is_dangerous(cmd):
+                def on_confirm(confirmed: bool | None) -> None:
+                    if confirmed:
+                        _do_send(cmd)
+                self.app.push_screen(
+                    ConfirmModal(
+                        t("Dangerous command: '{cmd}'\nAre you sure you want to send it?").format(
+                            cmd=f"[bold red]{cmd}[/bold red]"
+                        )
+                    ),
+                    on_confirm,
+                )
+                return
+            _do_send(cmd)
+
+        self.app.push_screen(AliasModal(), on_result)
 
     def action_kill_pane(self) -> None:
         pane_id = self._get_selected_pane_id()

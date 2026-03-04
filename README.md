@@ -51,12 +51,67 @@ python3 main.py --log    # start with file logging
 
 ### Key Bindings
 
+#### Global
+
 | Key        | Action                  |
 |------------|-------------------------|
-| `Ctrl+Q`   | Quit                   |
-| `Ctrl+T`   | Toggle theme           |
-| `?`         | Help                   |
-| `Ctrl+P`   | Command palette        |
+| `Ctrl+Q`   | Quit                    |
+| `Ctrl+T`   | Toggle theme            |
+| `?`        | Help                    |
+| `Ctrl+P`   | Command palette         |
+
+#### Home Screen
+
+| Key | Action     |
+|-----|------------|
+| `1` | Sessions   |
+| `2` | Windows    |
+| `3` | Panes      |
+| `q` | Quit       |
+
+#### Sessions Screen
+
+| Key      | Action                 |
+|----------|------------------------|
+| `c`      | Create session         |
+| `r`      | Rename session         |
+| `a`      | Attach to session      |
+| `k`      | Kill session           |
+| `s`      | Save session to disk   |
+| `l`      | Load saved session     |
+| `F5`     | Refresh list           |
+| `Escape` | Back                   |
+
+#### Windows Screen
+
+| Key      | Action          |
+|----------|-----------------|
+| `c`      | Create window   |
+| `r`      | Rename window   |
+| `s`      | Select window   |
+| `k`      | Close window    |
+| `F5`     | Refresh list    |
+| `Escape` | Back            |
+
+#### Panes Screen
+
+| Key      | Action               |
+|----------|----------------------|
+| `v`      | Split vertically     |
+| `h`      | Split horizontally   |
+| `x`      | Send command to pane |
+| `H`      | History picker       |
+| `A`      | Alias picker         |
+| `k`      | Close pane           |
+| `F5`     | Refresh list         |
+| `Escape` | Back                 |
+
+#### Tmux Popup (inside terminal)
+
+| Key        | Action                          |
+|------------|---------------------------------|
+| `Ctrl+B H` | History picker (filterable popup) |
+| `Ctrl+B A` | Alias picker (filterable popup)   |
 
 ## Project Structure
 

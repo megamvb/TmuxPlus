@@ -114,6 +114,14 @@ STRINGS: dict[str, str] = {
     "Vertical split created!": "Split vertical criado!",
     "Error creating split": "Erro ao criar split",
     "Horizontal split created!": "Split horizontal criado!",
+    "History": "Histórico",
+    "Aliases": "Aliases",
+    "Shell Aliases": "Aliases do Shell",
+    "Filter aliases...": "Filtrar aliases...",
+    "No aliases found": "Nenhum alias encontrado",
+    "Command History": "Histórico de Comandos",
+    "Filter commands...": "Filtrar comandos...",
+    "No commands found": "Nenhum comando encontrado",
     "Select a pane first": "Selecione um painel primeiro",
     "Command to send to pane:": "Comando para enviar ao painel:",
     "Command sent to pane {id}": "Comando enviado ao painel {id}",
@@ -132,6 +140,51 @@ STRINGS: dict[str, str] = {
     "Help — Tmux Commands": "Ajuda — Comandos Tmux",
     "Close": "Fechar",
     "TMUX_HELP_TEXT": """\
+[bold cyan]═══ Comandos TmuxPlus ═══[/]
+
+[bold green]── Global ───────────────────────────────────────[/]
+[bold]Ctrl+Q[/]          Sair do TmuxPlus
+[bold]Ctrl+T[/]          Alternar tema
+[bold]?[/]               Ajuda
+[bold]Ctrl+P[/]          Paleta de comandos
+
+[bold green]── Tela Home ────────────────────────────────────[/]
+[bold]1[/]               Sessões
+[bold]2[/]               Janelas
+[bold]3[/]               Painéis
+[bold]q[/]               Sair
+
+[bold green]── Tela Sessões ─────────────────────────────────[/]
+[bold]c[/]               Criar sessão
+[bold]r[/]               Renomear sessão
+[bold]a[/]               Anexar à sessão
+[bold]k[/]               Matar sessão
+[bold]s[/]               Salvar sessão em disco
+[bold]l[/]               Carregar sessão salva
+[bold]F5[/]              Atualizar lista
+[bold]Escape[/]          Voltar
+
+[bold green]── Tela Janelas ─────────────────────────────────[/]
+[bold]c[/]               Criar janela
+[bold]r[/]               Renomear janela
+[bold]s[/]               Selecionar janela
+[bold]k[/]               Fechar janela
+[bold]F5[/]              Atualizar lista
+[bold]Escape[/]          Voltar
+
+[bold green]── Tela Painéis ─────────────────────────────────[/]
+[bold]v[/]               Split vertical
+[bold]h[/]               Split horizontal
+[bold]x[/]               Enviar comando ao painel
+[bold]H[/]               Histórico de comandos
+[bold]k[/]               Fechar painel
+[bold]F5[/]              Atualizar lista
+[bold]Escape[/]          Voltar
+
+[bold green]── Popup Tmux (dentro do terminal) ───────────────[/]
+[bold]Ctrl+B  H[/]       Histórico de comandos (popup filtrável)
+[bold]Ctrl+B  A[/]       Aliases do shell (popup filtrável)
+
 [bold cyan]═══ Comandos Tmux Essenciais ═══[/]
 
 [bold yellow]Prefixo padrão:[/] [bold white]Ctrl+B[/]  (todos os comandos abaixo usam este prefixo)

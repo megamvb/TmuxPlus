@@ -1,5 +1,8 @@
 """TmuxPlus main application."""
 
+import subprocess
+from pathlib import Path
+
 from textual.app import App
 from textual.command import Hit, Hits, Provider
 
@@ -89,4 +92,36 @@ class TmuxPlusApp(App):
             self.exit()
 
     def on_mount(self) -> None:
+        self._register_tmux_keybindings()
         self.push_screen(HomeScreen(self.tmux))
+
+    def _register_tmux_keybindings(self) -> None:
+        """Register prefix + H/A to open history/alias picker popups."""
+        base = Path(__file__).parent.resolve()
+        history_script = base / "history_picker.py"
+        alias_script = base / "alias_picker.py"
+        try:
+            # Use run-shell so tmux expands #{pane_id} at key-press time,
+            # then passes the resolved value to display-popup.
+            subprocess.run(
+                [
+                    "tmux", "bind-key", "H",
+                    "run-shell",
+                    f"tmux display-popup -E -w 80% -h 70% "
+                    f"'python3 {history_script} #{{pane_id}}'",
+                ],
+                capture_output=True,
+                timeout=5,
+            )
+            subprocess.run(
+                [
+                    "tmux", "bind-key", "A",
+                    "run-shell",
+                    f"tmux display-popup -E -w 80% -h 70% "
+                    f"'python3 {alias_script} #{{pane_id}}'",
+                ],
+                capture_output=True,
+                timeout=5,
+            )
+        except Exception:
+            pass

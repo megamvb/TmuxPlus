@@ -355,6 +355,57 @@ class TmuxService:
         except Exception:
             return False
 
+    def flush_pane_history(self, pane_id: str) -> bool:
+        """Send ' history -a' to the pane to flush in-memory history to disk.
+
+        The leading space avoids polluting history (HISTCONTROL=ignoreboth).
+        """
+        try:
+            for session in self.server.sessions:
+                for window in session.windows:
+                    for pane in window.panes:
+                        if pane.pane_id == pane_id:
+                            pane.send_keys(" history -a", suppress_history=False)
+                            return True
+            return False
+        except Exception:
+            return False
+
+    def get_pane_histfile(self, pane_id: str) -> str:
+        """Detect the HISTFILE for the shell running in a pane.
+
+        Uses tmux display-message to get the pane PID, then reads
+        /proc/<pid>/environ to find HISTFILE and HOME.
+        Returns fallback ~/.bash_history on any failure.
+        """
+        fallback = str(Path.home() / ".bash_history")
+        try:
+            result = subprocess.run(
+                ["tmux", "display-message", "-t", pane_id, "-p", "#{pane_pid}"],
+                capture_output=True, text=True, timeout=5,
+            )
+            if result.returncode != 0 or not result.stdout.strip():
+                return fallback
+            pid = result.stdout.strip()
+            if not pid.isdigit():
+                return fallback
+            environ_path = Path(f"/proc/{pid}/environ")
+            if not environ_path.exists():
+                return fallback
+            env_bytes = environ_path.read_bytes()
+            env_vars: dict[str, str] = {}
+            for entry in env_bytes.split(b"\x00"):
+                if b"=" in entry:
+                    key, _, val = entry.partition(b"=")
+                    env_vars[key.decode("utf-8", errors="replace")] = val.decode("utf-8", errors="replace")
+            histfile = env_vars.get("HISTFILE")
+            if histfile:
+                return histfile
+            home = env_vars.get("HOME", str(Path.home()))
+            return str(Path(home) / ".bash_history")
+        except Exception:
+            return fallback
+
     def send_keys_to_pane(self, pane_id: str, keys: str) -> bool:
         try:
             for session in self.server.sessions:

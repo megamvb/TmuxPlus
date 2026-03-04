@@ -131,8 +131,78 @@ DataTable {
 
 InputModal,
 ConfirmModal,
-HelpModal {
+HelpModal,
+HistoryModal,
+AliasModal {
     align: center middle;
+}
+
+/* ── Modal de History ─────────────────────────────── */
+
+#history-dialog {
+    width: 80;
+    height: 70%;
+    padding: 1 2;
+    background: $panel;
+    border: thick $primary;
+}
+
+#history-title {
+    width: 100%;
+    text-align: center;
+    text-style: bold;
+    padding: 1 0;
+    color: $accent;
+}
+
+#history-filter {
+    width: 100%;
+    margin: 0 0 1 0;
+}
+
+#history-list {
+    height: 1fr;
+}
+
+#history-buttons {
+    height: auto;
+    width: 100%;
+    align-horizontal: center;
+    padding: 1 0;
+}
+
+/* ── Modal de Aliases ─────────────────────────────── */
+
+#alias-dialog {
+    width: 80;
+    height: 70%;
+    padding: 1 2;
+    background: $panel;
+    border: thick $primary;
+}
+
+#alias-title {
+    width: 100%;
+    text-align: center;
+    text-style: bold;
+    padding: 1 0;
+    color: $accent;
+}
+
+#alias-filter {
+    width: 100%;
+    margin: 0 0 1 0;
+}
+
+#alias-list {
+    height: 1fr;
+}
+
+#alias-buttons {
+    height: auto;
+    width: 100%;
+    align-horizontal: center;
+    padding: 1 0;
 }
 
 /* ── Modal de Ajuda ────────────────────────────── */
